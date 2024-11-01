@@ -57,12 +57,28 @@ export const updateCart = async (req, res) => {
 };
 
 //get user cart data
-export const getUserCart = async (req, res) => {
+/*export const getUserCart = async (req, res) => {
   try {
     const { userId } = req.body;
 
     const userData = await userModel.findById(userId);
     let cartData = await userData.cartData;
+
+    res.json({ success: true, cartData });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};*/
+export const getUserCart = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    // Fetch user data based on userId
+    const userData = await userModel.findById(userId);
+
+    // Check if userData exists before accessing cartData
+    let cartData = userData ? userData.cartData : null;
 
     res.json({ success: true, cartData });
   } catch (error) {
