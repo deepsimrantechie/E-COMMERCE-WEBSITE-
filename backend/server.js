@@ -40,10 +40,25 @@ const port = process.env.PORT || 4000;
 connectDB();
 connectCloudinary();
 
+const allowedOrigins = [
+  "http://localhost:5174", // Development
+  "https://photopia-experince-frontend.onrender.com", // Production
+];
 // Middlewares
 app.use(express.json());
-app.use(cors());
-
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., Postman, mobile apps)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
+    credentials: true, // Enable sending cookies, auth headers, etc.
+  })
+);
 // API endpoints
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
