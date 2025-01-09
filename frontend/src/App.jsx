@@ -12,8 +12,8 @@ import Navbar from "./Components/Navbar";
 import Cart from "./Pages/Cart";
 import Footer from "./Components/Footer";
 import SearchBar from "./Components/SearchBar";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Don't forget to include the CSS
 
 const App = () => {
   return (

@@ -9,7 +9,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["react-router-dom"], // Add react-router-dom here
+      external: ["react-router-dom", "react-toastify"], // Add both here
     },
   },
 });
