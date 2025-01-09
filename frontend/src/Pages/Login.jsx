@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+//localhost
+const API_BASE_URL =
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState("Login");
@@ -22,7 +25,7 @@ const Login = () => {
         console.log("Sign Up data:", { name, email, password });
 
         // Sign Up request
-        const response = await axios.post(backendUrl + "/api/user/register", {
+        const response = await axios.post(`${API_BASE_URL}/api/user/register`, {
           name,
           email,
           password,
@@ -45,7 +48,7 @@ const Login = () => {
         console.log("Login data:", { email, password });
 
         // Login request
-        const response = await axios.post(backendUrl + "/api/user/login", {
+        const response = await axios.post(`${API_BASE_URL}/api/user/login`, {
           email,
           password,
         });
