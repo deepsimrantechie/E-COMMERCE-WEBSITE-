@@ -8,7 +8,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["react-router-dom"], // Only externalize JS libraries, not CSS
+      // No need to externalize react-toastify
     },
   },
 });
