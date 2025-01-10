@@ -13,7 +13,7 @@ import Cart from "./Pages/Cart";
 import Footer from "./Components/Footer";
 import SearchBar from "./Components/SearchBar";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"; // Ensure this import exists
 
 const App = () => {
   return (

@@ -1,15 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5174, // Custom port for your development server
+    port: 5174,
   },
   build: {
     rollupOptions: {
-      external: ["react-router-dom", "react-toastify"], // Externalize only JavaScript
+      external: ["react-router-dom"], // Only externalize JS libraries, not CSS
     },
   },
 });
