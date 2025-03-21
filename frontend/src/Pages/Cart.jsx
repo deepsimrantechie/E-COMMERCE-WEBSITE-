@@ -94,7 +94,7 @@ const Cart = () => {
               onClick={() => navigate("/placeorder")}
               className="bg-black text-white text-sm my-8 px-8 py-3"
             >
-              PROOCED TO CEHCKOUT
+              PROCEED TO CHECKOUT
             </button>
           </div>
         </div>

@@ -29,7 +29,7 @@ const Login = ({ setToken }) => {
         <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
         <form onSubmit={onSubmitHandler}>
           <div className="mb-3 min-w-72">
-            <p text-sm font-medium text-gray-700 mb-2>
+            <p className="text-sm font-medium text-gray-700 mb-2">
               Email address
             </p>
             <input

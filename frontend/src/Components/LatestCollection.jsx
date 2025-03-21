@@ -11,24 +11,27 @@ const LatestCollection = () => {
   }, [products]);
 
   return (
-    <div className="my-10">
-      <div className="text-center py-8 text-3xl">
+    <div className="my-16 px-4 md:px-8 lg:px-16">
+      <div className="text-center py-10">
         <Title text1={"LATEST"} text2={" COLLECTIONS"} />
-        <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-          Lorem Ispum is simply dummy text of the prinitng and typesetting
-          industry.Lorem Ipsum has been the.
+        <p className="w-3/4 m-auto text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed">
+          Discover our latest trendy arrivals, crafted with premium quality to
+          elevate your style.
         </p>
       </div>
-      {/*rendering product */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+      {/* Rendering product */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {latestProducts.map((item, index) => (
-          <ProductItem
-            key={index}
-            id={item._id}
-            image={item.image}
-            name={item.name}
-            price={item.price}
-          />
+          <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <ProductItem
+              key={index}
+              id={item._id}
+              image={item.image}
+              name={item.name}
+              price={item.price}
+              className="rounded-lg overflow-hidden"
+            />
+          </div>
         ))}
       </div>
     </div>

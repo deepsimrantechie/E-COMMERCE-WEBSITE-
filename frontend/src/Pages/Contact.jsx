@@ -5,37 +5,51 @@ import NewsletterBox from "../Components/NewsletterBox";
 
 const Contact = () => {
   return (
-    <div>
-      <div className="text-center text-2xl pt-10 border-t">
-        <Title text1={"CONTACT"} text2={"US"} />
+    <div className="container mx-auto px-4 py-12">
+      {/* Contact Us Title */}
+      <div className="text-center mb-12">
+        <Title text1={"CONTACT"} text2={" US"} />
       </div>
-      <div className="my-10 flex flex-col justify-center md:flex-row gap-10 mb-28">
-        <img
-          className="w-full md md:max-w-[480px]"
-          src={assets.contact_img}
-          alt=""
-        />
-        <div className="flex flex-col justify-center items-start gap-6">
-          <p className="font-semibold text-xl text-gray-600">Our store</p>
-          <p>
-            548273 willms stattion <br /> gurgaon sector-32 ,India{" "}
+
+      {/* Contact Content */}
+      <div className="flex flex-col md:flex-row gap-12 items-center">
+        {/* Image Section */}
+        <div className="w-full md:w-1/2">
+          <img
+            className="w-full h-auto rounded-lg shadow-lg"
+            src={assets.contact_img}
+            alt="Contact Us"
+          />
+        </div>
+
+        {/* Text Section */}
+        <div className="w-full md:w-1/2 space-y-6">
+          <h3 className="text-xl font-semibold text-gray-700">Our Store</h3>
+          <p className="text-gray-600">
+            548273 Willms Station <br />
+            Gurgaon Sector-32, India
           </p>
           <p className="text-gray-500">
-            Tel :011 -293898238 <br />
-            Email:Shopify@gmail.com
+            Tel: 011-293898238 <br />
+            Email: Shopify@gmail.com
           </p>
-          <p className="font-semibold text-xl text-gray-600">
-            careers at forever{" "}
-          </p>
+
+          <h3 className="text-xl font-semibold text-gray-700">
+            Careers at Forever
+          </h3>
           <p className="text-gray-500">
             Learn more about our teams and job openings.
           </p>
-          <button className="border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500">
+          <button className="border border-black px-8 py-3 text-sm font-medium hover:bg-black hover:text-white transition-all duration-300">
             Explore Jobs
           </button>
         </div>
       </div>
-      <NewsletterBox />
+
+      {/* Newsletter Section */}
+      <div className="mt-20">
+        <NewsletterBox />
+      </div>
     </div>
   );
 };

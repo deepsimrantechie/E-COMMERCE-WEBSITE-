@@ -1,29 +1,3 @@
-/*import express from "express";
-import cors from "cors";
-import "dotenv/config";
-import connectDB from "./config/mongodb.js";
-import connectCloudinary from "./config/cloudinary.js";
-import userRouter from "./routes/userRoute.js";
-
-//app  config
-const app = express();
-const port = process.env.PORT || 4000;
-connectDB();
-connectCloudinary();
-
-// MIDDLE WARES
-app.use(express.json());
-app.use(cors());
-
-//api endpoints
-app.use("/api/user", userRouter);
-
-app.get("/", (req, res) => {
-  res.send("api working ");
-});
-
-app.listen(port, () => console.log("server started on port :" + port));
-*/
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -40,26 +14,28 @@ const port = process.env.PORT || 4000;
 connectDB();
 connectCloudinary();
 
+// CORS Configuration
 const allowedOrigins = [
-  "http://localhost:5174", // Development
-  "https://photopia-experince-frontend.onrender.com", // Production
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://your-frontend-domain.com",
 ];
-// Middlewares
-app.use(express.json());
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (e.g., Postman, mobile apps)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
+        callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Enable sending cookies, auth headers, etc.
   })
 );
-// API endpoints
+// Middlewares
+app.use(express.json());
+
+// API Endpoints
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
@@ -69,4 +45,5 @@ app.get("/", (req, res) => {
   res.send("API working");
 });
 
+// Start Server
 app.listen(port, () => console.log("Server started on port: " + port));

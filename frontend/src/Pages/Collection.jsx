@@ -1,4 +1,4 @@
-import React, { useContext, useDebugValue, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/assets";
 import Title from "../Components/Title";
@@ -29,10 +29,8 @@ const Collection = () => {
   };
 
   const applyFilter = () => {
-    // Make sure to clone the products array properly
     let productsCopy = [...products];
 
-    // Apply search filter if search is active
     if (showSearch && search) {
       productsCopy = productsCopy.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
@@ -78,120 +76,91 @@ const Collection = () => {
   }, [sortType]);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-      {/*FILTER OPTION */}
-      <div className="min-w-60">
-        <p
-          onClick={() => setShowFilter(!showFilter)}
-          className="my-2 text-xl flex items-center cursor-pointer gap-2"
-        >
-          <img
-            className={`h-3 sm:hidden ${showFilter ? "rotate-90" : ""}`}
-            src={assets.dropdown_icon}
-            alt=""
-          />
-          FILTERS
-        </p>
-        {/* category filter*/}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? "" : "hidden"
-          } sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">CATEGORIES </p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Men"}
-                onChange={toggleCatgory}
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* FILTER SECTION */}
+        <div className="lg:w-72">
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <div
+              onClick={() => setShowFilter(!showFilter)}
+              className="flex items-center justify-between cursor-pointer"
+            >
+              <h2 className="text-xl font-semibold text-gray-800">FILTERS</h2>
+              <img
+                className={`h-4 transition-transform ${
+                  showFilter ? "rotate-90" : ""
+                }`}
+                src={assets.dropdown_icon}
+                alt="Dropdown Icon"
               />
-              Men
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Women"}
-                onChange={toggleCatgory}
-              />
-              Women
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Kids"}
-                onChange={toggleCatgory}
-              />
-              Kids
-            </p>
+            </div>
+
+            {/* CATEGORY FILTER */}
+            <div className={`mt-6 ${showFilter ? "block" : "hidden"} lg:block`}>
+              <h3 className="text-lg font-medium text-gray-700 mb-4">
+                CATEGORIES
+              </h3>
+              <div className="space-y-2">
+                {["Men", "Women", "Kids"].map((cat) => (
+                  <label key={cat} className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      value={cat}
+                      onChange={toggleCatgory}
+                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <span className="text-gray-600">{cat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* SUBCATEGORY FILTER */}
+            <div className={`mt-6 ${showFilter ? "block" : "hidden"} lg:block`}>
+              <h3 className="text-lg font-medium text-gray-700 mb-4">TYPE</h3>
+              <div className="space-y-2">
+                {["Topwear", "Bottomwear", "Winterwear"].map((subcat) => (
+                  <label key={subcat} className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      value={subcat}
+                      onChange={togglesubcategory}
+                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <span className="text-gray-600">{subcat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        {/* subcategory filter*/}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? "" : "hidden"
-          } sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPE</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Topwear"}
-                onChange={togglesubcategory}
-              />
-              TOPWEAR
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Bottomwear"}
-                onChange={togglesubcategory}
-              />
-              Bottomwear
-            </p>
-            <p className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value={"Winterwear"}
-                onChange={togglesubcategory}
-              />
-              Winterwear
-            </p>
+
+        {/* PRODUCTS SECTION */}
+        <div className="flex-1">
+          <div className="flex justify-between items-center mb-8">
+            <Title text1={"ALL"} text2={" COLLECTION"} />
+            <select
+              onChange={(e) => setSortType(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="relavent">Sort by: Relevant</option>
+              <option value="low-high">Sort by: Price Low to High</option>
+              <option value="high-low">Sort by: Price High to Low</option>
+            </select>
           </div>
-        </div>
-      </div>
-      {/* right side*/}
-      <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4 ">
-          <Title text1={"ALL"} text2={" COLLECTION"} />
-          {/* PRODUCT SORT*/}
-          <select
-            onChange={(e) => setSortType(e.target.value)}
-            className="border-2 border-gray-300 text-sm px-2" // All classes combined
-          >
-            <option value="relavent">sort by: relevant</option>
-            <option value="low-high">Sort by: low-high</option>
-            <option value="high-low">Sort by: high-low</option>
-          </select>
-        </div>
-        {/*map products8 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-          {filterProducts.map((item, index) => (
-            <ProductItem
-              key={index}
-              name={item.name}
-              id={item._id}
-              price={item.price}
-              image={item.image}
-            />
-          ))}
+
+          {/* PRODUCT GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filterProducts.map((item, index) => (
+              <ProductItem
+                key={index}
+                name={item.name}
+                id={item._id}
+                price={item.price}
+                image={item.image}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

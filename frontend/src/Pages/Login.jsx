@@ -2,13 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { toast } from "react-toastify";
 import axios from "axios";
-//localhost
+
+// Localhost or production backend URL
 const API_BASE_URL =
   import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState("Login");
-  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
+  const { token, setToken, navigate } = useContext(ShopContext);
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -21,9 +25,6 @@ const Login = () => {
           return;
         }
 
-        // Log values to ensure they are correctly set
-        console.log("Sign Up data:", { name, email, password });
-
         // Sign Up request
         const response = await axios.post(`${API_BASE_URL}/api/user/register`, {
           name,
@@ -34,18 +35,16 @@ const Login = () => {
         if (response.data.success) {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
+          toast.success("Account created successfully!");
         } else {
           toast.error(response.data.message);
         }
       } else {
-        // Validate login fields (name is not required)
+        // Validate login fields
         if (!email || !password) {
           toast.error("Email and password are required for login!");
           return;
         }
-
-        // Log values to ensure they are correctly set
-        console.log("Login data:", { email, password });
 
         // Login request
         const response = await axios.post(`${API_BASE_URL}/api/user/login`, {
@@ -56,12 +55,13 @@ const Login = () => {
         if (response.data.success) {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
+          toast.success("Logged in successfully!");
         } else {
           toast.error(response.data.message);
         }
       }
     } catch (error) {
-      console.log("Error response:", error.response?.data); // Log the error response
+      console.log("Error response:", error.response?.data);
       toast.error(error.response?.data?.message || "An error occurred");
     }
   };
@@ -71,70 +71,99 @@ const Login = () => {
       navigate("/");
     }
   }, [token]);
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
-    >
-      <div className="inline-flex items-center gap-2 mb-2 mt-10">
-        <p className="prata-regular text-3xl">{currentState}</p>
-        <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
-      </div>
-      {currentState === "Login" ? (
-        ""
-      ) : (
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          className="w-full px-3 py-2 border border-gray-800 "
-          placeholder="Name"
-          required
-        />
-      )}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900">
+            {currentState === "Login" ? "Welcome Back" : "Create Account"}
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            {currentState === "Login"
+              ? "Sign in to your account"
+              : "Join us to get started"}
+          </p>
+        </div>
 
-      <input
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        type="email"
-        className="w-full px-3 py-2 border border-gray-800"
-        placeholder="Email address"
-        required
-      />
-      <input
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        type="password"
-        className="w-full px-3 py-2 border border-gray-800"
-        placeholder="Password"
-        required
-      />
-      <div className="w-full flex justify-between text-sm mt-[-8px]">
-        <p className="cursor-pointer">Forget Your Password?</p>
-        {currentState === "Login" ? (
-          <p
-            onClick={() => setCurrentState("Sign Up")}
-            className="cursor-pointer"
-          >
-            Create account
-          </p>
-        ) : (
-          <p
-            onClick={() => setCurrentState("Login")}
-            className="cursor-pointer"
-          >
-            Login Here
-          </p>
-        )}
+        <form onSubmit={onSubmitHandler} className="mt-8 space-y-6">
+          {currentState === "Sign Up" && (
+            <div>
+              <label htmlFor="name" className="sr-only">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="email" className="sr-only">
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            {currentState === "Login" && (
+              <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
+                Forgot your password?
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={() =>
+                setCurrentState(currentState === "Login" ? "Sign Up" : "Login")
+              }
+              className="text-sm text-blue-600 hover:text-blue-500"
+            >
+              {currentState === "Login"
+                ? "Create an account"
+                : "Already have an account? Sign In"}
+            </button>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300"
+            >
+              {currentState === "Login" ? "Sign In" : "Sign Up"}
+            </button>
+          </div>
+        </form>
       </div>
-      <button className="bg-black text-white font-light px-8 py-2 mt-4">
-        {currentState === "Login" ? "Sign In" : "Sign Up"}
-      </button>
-    </form>
+    </div>
   );
 };
 

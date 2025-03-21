@@ -2,13 +2,13 @@ import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import razorpay from "razorpay";
 
-//global vairables
+//global variable
 const currency = "inr";
 const deliveryCharge = 10;
-//gatewat intialize
+//gateway intialize
 const razorpayInstance = new razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAU_KEY_SECRET,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 //placing order using COD method
